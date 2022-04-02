@@ -14,7 +14,7 @@ from scipy.stats import norm
 
 from .base import AntitheticScalar
 
-class AntitheticNormal(AntitheticScalar):
+class Normal(AntitheticScalar):
     """
     Common or antithetic Gaussian random variables.
     """
@@ -103,7 +103,7 @@ class AntitheticNormal(AntitheticScalar):
         sequence = self.get_sequence_raw_normal(N, method, mix_singles)
         return self.scale*sequence + self.loc
 
-class AntitheticUniform(AntitheticScalar):
+class Uniform(AntitheticScalar):
     """
     Common or antithetic uniform random variables.
     """
