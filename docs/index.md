@@ -1,6 +1,3 @@
-# antithetic
-Common and Antithetic Random Variables in Python
-
 This package provides wrappers for the ``numpy.random.Generator`` class to generate correlated sequences of random variables. Such sequences are used primarily for reducing the variance of sampling estimations. Consider approximating an expected value &mu;=E\[X\] by the average of two observations: X<sub>1</sub> and X<sub>2</sub>. In the most general setting, the variance of our estimate is 0.5(Var\[X<sub>1</sub>\] + Var\[X<sub>2</sub>\]) + Cov(X<sub>1</sub>, X<sub>2</sub>). Usually, independent samples are desirable, but enforcing Cov[X<sub>1</sub>, X<sub>2</sub>] \< 0 reduces the estimate's variance. Additional exposition can be found in Chapter 9.3 of [2].
 
 The strategy of using correlated random variable in stochastic experiments is known as either "common random variables" or "antithetic random variables," depending on the sign of the desired correlation. For general distribution families, it can be challenging to sample from a bivariate distribution in which the marginal distributions are identical but the pair of variables is correlated. Cario and Nelson [1] describe a framework for generating the desired distribution from appropriately correlated normal random variables, for which it is simple to specify a desired correlation while maintaining a fixed marginal distribution.
