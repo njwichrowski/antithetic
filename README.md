@@ -5,6 +5,8 @@ This package provides wrappers for the ``numpy.random.Generator`` class to gener
 
 The strategy of using correlated random variable in stochastic experiments is known as either "common random variables" or "antithetic random variables," depending on the sign of the desired correlation. For general distribution families, it can be challenging to sample from a bivariate distribution in which the marginal distributions are identical but the pair of variables is correlated. Cario and Nelson [1] describe a framework for generating the desired distribution from appropriately correlated normal random variables, for which it is simple to specify a desired correlation while maintaining a fixed marginal distribution.
 
+A demonstration of ``antithetic``'s capabilities is available at [the project's webpage](https://njwichrowski.github.io/antithetic/).
+
 ## Distributions Available
 At present, correlated normal (``antithetic.scalars.Normal``) and continuously uniform (``antithetic.scalars.Uniform``) distributions are supported. There are plans to add further well-known scalar distributions, ideally using the strategy proposed by [1,3] that allows one to specify correlation for the resulting joint distribution, but at least via a simpler approach involving transformations of the type provided in [4]. It is also hoped to add functionality for multivariate distributions.
 
