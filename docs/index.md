@@ -2,7 +2,7 @@ This package provides wrappers for the ``numpy.random.Generator`` class to gener
 
 The strategy of using correlated random variable in stochastic experiments is known as either "common random variables" or "antithetic random variables," depending on the sign of the desired correlation. For general distribution families, it can be challenging to sample from a bivariate distribution in which the marginal distributions are identical but the pair of variables is correlated. Cario and Nelson [1] describe a framework for generating the desired distribution from appropriately correlated normal random variables, for which it is simple to specify a desired correlation while maintaining a fixed marginal distribution.
 
-Click [here](https://njwichrowski.github.io/antithetic/elaborate_demo.html) to see a Jupyter notebook demonstration of ``antithetic``'s capabilities, or [here](https://github.com/njwichrowski/antithetic) to view this project on GitHub.
+Click [here](https://njwichrowski.github.io/antithetic/illustrated_demo.html) to see a Jupyter notebook demonstration of ``antithetic``'s capabilities, or [here](https://github.com/njwichrowski/antithetic) to view this project on GitHub.
 
 ## Distributions Available
 At present, correlated normal (``antithetic.scalars.Normal``) and continuously uniform (``antithetic.scalars.Uniform``) distributions are supported. There are plans to add further well-known scalar distributions, ideally using the strategy proposed by [1,3] that allows one to specify correlation for the resulting joint distribution, but at least via a simpler approach involving transformations of the type provided in [4]. It is also hoped to add functionality for multivariate distributions.
@@ -11,11 +11,11 @@ At present, correlated normal (``antithetic.scalars.Normal``) and continuously u
 ``numpy``
 ``scipy``
 
-elaborate_demo.ipynb: ``matplotlib``
+illustrated_demo.ipynb: ``matplotlib``
 
 ## References
 1. Cario, Marne C.; Nelson, Barry L. "Modeling and Generating Random Vectors with Arbitrary Marginal Distributions and Correlation Matrix," (1997). DOI: 10.1145/937332.937336
-2. Kroese, D. P.; Taimre, T.; Botev, Z. I. (2011). Handbook of Monte Carlo methods. John Wiley & Sons.
+2. Kroese, D. P.; Taimre, T.; Botev, Z. I. (2011). _Handbook of Monte Carlo Methods_. John Wiley & Sons.
 3. Li, Shing Ted; Hammond, Joseph L. "Generation of Pseudorandom Numbers with Specified Univariate Distributions and Correlation Coefficients," IEEE Trans. Syst. Man Cybern.: Syst. (1975) 5, 557-561.
 4. McLaughlin, Michael P. "[A Compendium of Common Probability Distributions](https://www.causascientia.org/math_stat/Dists/Compendium.pdf)," (2016).
 
