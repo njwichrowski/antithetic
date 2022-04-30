@@ -8,7 +8,13 @@ The strategy of using correlated random variable in stochastic experiments is kn
 A demonstration of ``antithetic``'s capabilities is available at [the project's webpage](https://njwichrowski.github.io/antithetic/).
 
 ## Distributions Available
-At present, correlated normal (``antithetic.scalars.Normal``) and continuously uniform (``antithetic.scalars.Uniform``) distributions are supported. There are plans to add further well-known scalar distributions, ideally using the strategy proposed by [1,3] that allows one to specify correlation for the resulting joint distribution, but at least via a simpler approach involving transformations of the type provided in [4]. It is also hoped to add functionality for multivariate distributions.
+- Normal/Gaussian: ``antithetic.scalars.Normal``
+- Continuous Uniform: ``antithetic.scalars.Uniform``
+- Exponential: ``antithetic.scalars.Exponential``
+
+There is also a generic class, ``antithetic.scalars.InverseCDF``, which in principle can generate any marginal distribution, F<sub>X</sub>, from antithetic uniform random variables using the transformation X=F<sub>X</sub><sup>-1</sup>(U).
+
+There are plans to add further well-known scalar distributions, ideally using the strategy proposed by [1,3] that allows one to specify correlation for the resulting joint distribution, but at least via a simpler approach involving transformations of the type provided in [4]. It is also hoped to add functionality for multivariate distributions.
 
 ## Dependencies
 ``numpy``

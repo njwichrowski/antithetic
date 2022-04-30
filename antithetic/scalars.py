@@ -31,10 +31,10 @@ class Normal(AntitheticScalar):
             be in the range -1 <= correlation <= +1.
         
         loc : float
-            Mean of the marginal distribution to be generated.
+            Mean of the marginal distribution to be sampled.
             
         scale : float
-            Standard deviation of the marginal distribution to be generated.
+            Standard deviation of the marginal distribution to be sampled.
             Must be a positive value.
         
         seed : {int, array_like[ints], SeedSequence}, optional
@@ -233,10 +233,10 @@ class Uniform(InverseCDF):
             result from transforming by inverse normal CDF, which we use here.
         
         low : float
-            Minimum value of the marginal distribution to be generated.
+            Minimum value of the marginal distribution to be sampled.
             
         high : float
-            Maximum value of the marginal distribution to be generated. If
+            Maximum value of the marginal distribution to be sampled. If
             high < low, swaps the values. If low == high, raises a ValueError.
         
         seed : {int, array_like[ints], SeedSequence}, optional
@@ -247,8 +247,8 @@ class Uniform(InverseCDF):
         if low == high:
             raise ValueError("Degenerate distribution: low == high")
         
-        self.low = min(low, high)
-        self.high = max(low, high)
+        self.low = float(min(low, high))
+        self.high = float(max(low, high))
         
         super().__init__(
             correlation = correlation,
@@ -289,13 +289,95 @@ class Uniform(InverseCDF):
         return (self.high - self.low)**2.0/12.0
     
     @property
-    def range(self):
-        return self.high - self.low
-    
-    @property
     def correlation(self):
         return 6.0*np.arcsin(0.5*self.raw_correlation)/np.pi
     
     @classmethod
     def inverse_CDF(cls, u, low = 0.0, high = 1.0, **kwargs):
         return low + (high - low)*u
+
+class Exponential(InverseCDF):
+    """
+    Common or antithetic exponential random variables.
+    """
+    
+    def __init__(self, correlation, loc = 0.0, scale = 1.0, rate = None,
+                 seed = None, corr_for_unif = True):
+        """
+        Common or antithetic exponential random variables with specified
+        marginal distribution. See base.AntitheticScalar for more details.
+        
+        Parameters
+        ----------
+        correlation : float
+            Correlation of common or antithetic values to be generated. Must
+            be in the range -1 <= correlation <= +1. Depending on the value of
+            corr_for_unif, this parameter may specify the correlation either
+            of the underlying uniform random varibles or of the exponential
+            random variables themselves.
+        
+        loc : float
+            Minimum value of the marginal distribution's support. Exponential
+            distributions are almost always restricted to loc = 0.0, but this
+            parameter allows for a horizontal shift.
+        
+        scale : float
+            If loc == 0.0, the mean value for the marginal distribution to be
+            sampled. In general, the expected value is loc + scale.
+            
+        rate : float, optional
+            If provided, assigns scale = 1.0/rate, superceding the value
+            received for scale. This allows one to specify a distribution
+            under the rate parameter framework.
+        
+        seed : {int, array_like[ints], SeedSequence}, optional
+            Random seed used to initialize the pseudo-random number generator.
+            Passed directly to the numpy.random.default_rng() method. If None
+            (default) is provided, a seed will be automatically generated.
+        
+        corr_for_unif : bool, optional
+            If True (default), the value of correlation refers to the uniform
+            distribution from which the exponential variates are derived. If
+            False, determines a value for the uniform correlation that yields
+            exponential variates with (approimately) the desired correlation.
+                > The latter case is not yet supported.
+        """
+        if not corr_for_unif:
+            raise NotImplementedError(
+                "Direct values for exponential correlation not yet supported."
+            )
+        
+        if rate is not None:
+            scale = 1.0/rate
+        if scale <= 0.0:
+            raise ValueError("Invalid scale parameter: %r" % (scale,))
+        self.scale = float(scale)
+        self.loc = float(loc)
+        
+        if corr_for_unif:
+            super().__init__(
+                correlation = correlation,
+                func = Exponential.inverse_CDF,
+                seed = seed,
+                param_names = ["loc", "scale"]
+            )
+    
+    @property
+    def mean(self):
+        return self.loc + self.scale
+    
+    @property
+    def standard_deviation(self):
+        return self.scale
+    
+    @property
+    def variance(self):
+        return self.scale**2.0
+    
+    @property
+    def rate(self):
+        return 1.0/self.scale
+    
+    @classmethod
+    def inverse_CDF(cls, u, loc = 0.0, scale = 1.0, **kwargs):
+        return loc - scale*np.log(1.0 - u)
