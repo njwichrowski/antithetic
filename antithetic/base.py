@@ -190,6 +190,7 @@ class AntitheticScalar(object):
         ----------
         N : int
             The number of values to generate.
+            
         method : {"zip", "shuffle", "concatenate"}, optional
             Procedure for assembling the overall sequence from two paired
             subsequences with correlated entries. (Default: "zip")
@@ -197,6 +198,7 @@ class AntitheticScalar(object):
                         is adjacent to the other member of its pair.
                 "shuffle" : Randomly permute all items.
                 "concatenate" : Combine the subsequences end-to-end.
+                
         mix_singles : bool, optional
             If True (default) and method == "shuffle", include unpaired values
             on the beginning or end of the sequence, if present, in the
@@ -229,8 +231,6 @@ class AntitheticScalar(object):
         
         # Generate interior pairs:
         M = N - int(front_single) - int(back_single)
-        assert M % 2 == 0 # To do: Remove? Switch to if-raise?
-        
         pairs = self.generator.normal(size = (M//2, 2))
         pairs[:,1] = np.sum(pairs*self.mixing_weights, axis = 1)
         
