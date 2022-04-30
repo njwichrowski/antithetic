@@ -123,6 +123,14 @@ class AntitheticScalar(object):
             np.sqrt(1.0 - self.raw_correlation**2.0)
         ])
     
+    @property
+    def distributional_parameters(self):
+        """ Construct a dictionary of distribution parameter values. """
+        d = dict()
+        for key in self.distributional_parameter_names:
+            d[key] = getattr(self, key, None)
+        return d
+    
     def set_seed(self, seed = None):
         """
         Create a new numpy.random.Generator object, using the specified seed,
